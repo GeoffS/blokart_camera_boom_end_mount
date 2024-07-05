@@ -88,6 +88,7 @@ if(developmentRender)
 
     displayGhost() boomGhost();
     displayGhost() outhaulGhost();
+    displayGhost() bodyScrewGhost();
 }
 else
 {
@@ -102,4 +103,9 @@ module boomGhost()
 module outhaulGhost()
 {
     doubleX() tcu([boomDia/2,-12,-20], [2, 24, 100]);
+}
+
+module bodyScrewGhost()
+{
+    bodyScrewXform() tcy([0,0,-10], d=bodyScrewOD, h=100);
 }
