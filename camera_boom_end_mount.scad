@@ -5,6 +5,7 @@ firstLayerZ = 0.3;
 upperLayersZ = 0.2;
 
 bodyScrewOD = 6;
+m6NutRecessOD = 11.4;
 
 outhaulClearanceX = 3;
 outhaulClearanceY = 25;
@@ -15,7 +16,7 @@ bodyCylZ = 40;
 bodyCylOD = 50;
 bodyCylCZ = 4;
 
-bodySplitY = 10;
+bodySplitY = 11;
 screwSplitY = outhaulClearanceY;
 
 bodyScrewHoleDia = bodyScrewOD + 0.2;
@@ -43,14 +44,17 @@ module exterior()
         tcu([-200, -bodySplitY/2, -200], 400);
     }
 
-    // difference()
-    // {
-    //     bodyScrewXform() simpleChamferedCylinderDoubleEnded1(d=screwCylOD, h=screwCylY, cz=screwCylCY);
-    //     tcu([-200, -outhaulClearanceY/2, -200], 400);
-    // }
+    hull()
+    {
+        y = screwCylY/2 - outhaulClearanceY/2;
+        bodyScrewXform() simpleChamferedCylinderDoubleEnded1(d=screwCylOD, h=y, cz=screwCylCY);
 
-    y = screwCylY/2 - outhaulClearanceY/2;
-    bodyScrewXform() simpleChamferedCylinderDoubleEnded1(d=screwCylOD, h=y, cz=screwCylCY);
+        difference()
+        {
+            translate([0,0,-bodyCylZ/2]) simpleChamferedCylinderDoubleEnded1(d=bodyCylOD, h=bodyCylZ, cz=bodyCylCZ);
+            tcu([-200, -screwSplitY/2, -200], 400);
+        }
+    }
 }
 
 module bodyScrewXform()
