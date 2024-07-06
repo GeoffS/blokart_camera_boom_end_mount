@@ -6,6 +6,7 @@ upperLayersZ = 0.2;
 
 bodyScrewOD = 6;
 m6NutRecessOD = 11.4;
+m6NutRecessZ = 6;
 
 outhaulClearanceX = 3;
 outhaulClearanceY = 25;
@@ -23,7 +24,8 @@ bodyScrewHoleDia = bodyScrewOD + 0.2;
 
 screwCylCY = 2;
 screwCylOD = bodyScrewHoleDia + 6 + 2*screwCylCY;
-screwCylY = bodyCylOD;
+screwTotalCylY = bodyCylOD;
+screwCylY = screwTotalCylY/2 - outhaulClearanceY/2;
 
 module bodyCore()
 {
@@ -46,8 +48,7 @@ module exterior()
 
     hull()
     {
-        y = screwCylY/2 - outhaulClearanceY/2;
-        bodyScrewXform() simpleChamferedCylinderDoubleEnded1(d=screwCylOD, h=y, cz=screwCylCY);
+        bodyScrewXform() simpleChamferedCylinderDoubleEnded1(d=screwCylOD, h=screwCylY, cz=screwCylCY);
 
         difference()
         {
@@ -60,7 +61,7 @@ module exterior()
 module bodyScrewXform()
 {
     x = boomDia/2 + bodyScrewHoleDia/2 + outhaulClearanceX;
-    doubleX() translate([x, -screwCylY/2, 0]) rotate([-90,0,0]) children();
+    doubleX() translate([x, -screwTotalCylY/2, 0]) rotate([-90,0,0]) children();
 }
 
 module boom()
@@ -75,7 +76,11 @@ module screws()
 
 module top()
 {
-    bodyCore();
+    difference()
+    {
+        bodyCore();
+        bodyScrewXform() translate([0,0,-20+m6NutRecessZ]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
+    }
 }
 
 module bottom()
@@ -85,7 +90,7 @@ module bottom()
 
 module clip(d=0)
 {
-	//tc([-200, -400, -10], 400);
+	tc([-200, -200, 0], 400);
 }
 
 if(developmentRender)
