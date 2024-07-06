@@ -133,7 +133,12 @@ module top()
                 pvcXform() translate([0,0,-pvcX/2]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded1fn(d=pvcCylOD, h=pvcX, cz=4, fn=8);
             }
         }
-        pvcXform() tcy([0,0,-100], d=pvcOD, h=200);
+        pvcXform() translate([0,0,-100]) hull()
+        {
+            cylinder(d=pvcOD, h=200);
+            x = 8; //m6NutRecessOD + 1;
+            tcu([-x/2, 0, 0], [x, pvcOD/2, 200]);
+        }
         boom();
         screws();
         bodyScrewXform() translate([0,0,-20+m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
