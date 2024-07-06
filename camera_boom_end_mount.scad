@@ -5,8 +5,8 @@ firstLayerZ = 0.3;
 upperLayersZ = 0.2;
 
 bodyScrewOD = 6;
-m6NutRecessOD = 11.4;
-m6NutRecessZ = 6;
+m6NutRecessOD = 11.5;
+m6NutRecessZ = 6.2;
 
 outhaulClearanceX = 3;
 outhaulClearanceY = 25;
