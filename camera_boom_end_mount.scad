@@ -11,6 +11,9 @@ m6NutRecessZ = 6;
 outhaulClearanceX = 3;
 outhaulClearanceY = 25;
 
+makeTop = false;
+makeBottom = false;
+
 boomDia = 31;
 
 bodyCylZ = 40;
@@ -104,7 +107,8 @@ if(developmentRender)
 }
 else
 {
-	bodyCore();
+	if(makeTop) rotate([90,0,0]) top();
+    if(makeBottom) rotate([-90,0,0]) bottom();
 }
 
 module boomGhost()
