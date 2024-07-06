@@ -95,7 +95,7 @@ module bottom()
 
 module clip(d=0)
 {
-	tc([-200, -200, -d], 400);
+	// tc([-200, -200, -d], 400);
 }
 
 if(developmentRender)
