@@ -25,7 +25,7 @@ bodyCylCZ = 4;
 bodySplitY = 11;
 screwSplitY = outhaulClearanceY;
 
-bodyScrewHoleDia = bodyScrewOD + 0.2;
+bodyScrewHoleDia = bodyScrewOD + 0.4;
 
 screwCylCY = 2;
 screwCylOD = bodyScrewHoleDia + 8 + 2*screwCylCY;
@@ -121,7 +121,7 @@ module top()
         bodyScrewXform() translate([0,0,-20+m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
 
         // PVC m6 set-screw:
-        translate([0,0,0]) rotate([90,0,0]) cylinder(d=5.6, h=30);
+        translate([0,0,0]) rotate([90,0,0]) cylinder(d=5.5, h=30);
     }
 
     // Sacrificial layer in nut recess:
