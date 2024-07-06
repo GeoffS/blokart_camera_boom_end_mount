@@ -44,27 +44,6 @@ module bodyCore()
     }
 }
 
-// module exterior()
-// {
-//     difference()
-//     {
-//         translate([0,0,-bodyCylZ/2]) simpleChamferedCylinderDoubleEnded1(d=bodyCylOD, h=bodyCylZ, cz=bodyCylCZ);
-//         doubleX() tcu([boomDia/2, -200, -200], 400);
-//         tcu([-200, -bodySplitY/2, -200], 400);
-//     }
-
-//     hull()
-//     {
-//         bodyScrewXform() simpleChamferedCylinderDoubleEnded1(d=screwCylOD, h=screwCylY, cz=screwCylCY);
-
-//         difference()
-//         {
-//             translate([0,0,-bodyCylZ/2]) simpleChamferedCylinderDoubleEnded1(d=bodyCylOD, h=bodyCylZ, cz=bodyCylCZ);
-//             tcu([-200, -screwSplitY/2, -200], 400);
-//         }
-//     }
-// }
-
 module exterior()
 {
     boomPart();
@@ -112,13 +91,6 @@ module screws()
 
 module top()
 {
-    // difference()
-    // {
-    //     exterior();
-    //     boom();
-    //     screws();
-    //     bodyScrewXform() translate([0,0,-20+m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
-    // }
     difference()
     {
         union()
