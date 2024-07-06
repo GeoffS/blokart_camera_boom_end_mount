@@ -112,9 +112,28 @@ module screws()
 
 module top()
 {
+    // difference()
+    // {
+    //     exterior();
+    //     boom();
+    //     screws();
+    //     bodyScrewXform() translate([0,0,-20+m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
+    // }
     difference()
     {
-        exterior();
+        union()
+        {
+            boomPart();
+            hull()
+            {
+                screwPart();
+                pvcX = 2*screwCtrsOffsetX + screwCylOD;
+                pvcCylOD = min(pvcOD+14, bodyCylZ * (1/cos(22.5)));
+                echo(str("pvcCylOD = ", pvcCylOD));
+                pvcXform() translate([0,0,-pvcX/2]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded1fn(d=pvcCylOD, h=pvcX, cz=4, fn=8);
+            }
+        }
+        pvcXform() tcy([0,0,-100], d=pvcOD, h=200);
         boom();
         screws();
         bodyScrewXform() translate([0,0,-20+m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
@@ -136,14 +155,8 @@ module bottom()
         union()
         {
             boomPart();
-            hull()
-            {
-                screwPart();
-                pvcX = 2*screwCtrsOffsetX + screwCylOD;
-                pvcXform() translate([0,0,-pvcX/2]) simpleChamferedCylinderDoubleEnded1(d=pvcOD+10, h=pvcX, cz=2);
-            }
+            hull() screwPart();
         }
-        pvcXform() tcy([0,0,-100], d=pvcOD, h=200);
         boom();
         screws();
     }
@@ -156,7 +169,7 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	// display() top();
+	display() top();
     display() bottom();
 
     displayGhost() boomGhost();
