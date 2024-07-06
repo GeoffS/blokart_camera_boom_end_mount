@@ -23,7 +23,7 @@ screwSplitY = outhaulClearanceY;
 bodyScrewHoleDia = bodyScrewOD + 0.2;
 
 screwCylCY = 2;
-screwCylOD = bodyScrewHoleDia + 6 + 2*screwCylCY;
+screwCylOD = bodyScrewHoleDia + 8 + 2*screwCylCY;
 screwTotalCylY = bodyCylOD;
 screwCylY = screwTotalCylY/2 - outhaulClearanceY/2;
 
@@ -79,7 +79,7 @@ module top()
     difference()
     {
         bodyCore();
-        bodyScrewXform() translate([0,0,-20+m6NutRecessZ]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
+        bodyScrewXform() translate([0,0,-20+m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
     }
 }
 
@@ -90,7 +90,7 @@ module bottom()
 
 module clip(d=0)
 {
-	tc([-200, -200, 0], 400);
+	// tc([-200, -200, -d], 400);
 }
 
 if(developmentRender)
