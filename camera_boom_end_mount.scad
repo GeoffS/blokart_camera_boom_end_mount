@@ -84,6 +84,8 @@ module top()
         bodyCore();
         bodyScrewXform() translate([0,0,-20+m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
     }
+
+    bodyScrewXform() tcy([0,0,m6NutRecessZ], d=8, h=upperLayersZ);
 }
 
 module bottom()
@@ -93,7 +95,7 @@ module bottom()
 
 module clip(d=0)
 {
-	// tc([-200, -200, -d], 400);
+	tc([-200, -200, -d], 400);
 }
 
 if(developmentRender)
