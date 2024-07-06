@@ -16,7 +16,7 @@ makeBottom = false;
 
 boomDia = 31;
 
-pvcOD = 21.7;
+pvcOD = 21.8;
 
 bodyCylZ = 40;
 bodyCylOD = 50;
@@ -105,15 +105,23 @@ module top()
                 pvcXform() translate([0,0,-pvcX/2]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded1fn(d=pvcCylOD, h=pvcX, cz=4, fn=8);
             }
         }
+
+        // PVC tube opening with flat to make it printable:
         pvcXform() translate([0,0,-100]) hull()
         {
             cylinder(d=pvcOD, h=200);
             x = 8; //m6NutRecessOD + 1;
             tcu([-x/2, 0, 0], [x, pvcOD/2, 200]);
         }
+
         boom();
         screws();
+
+        // Nut recesses:
         bodyScrewXform() translate([0,0,-20+m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
+
+        // PVC m6 set-screw:
+        translate([0,0,0]) rotate([90,0,0]) cylinder(d=5.6, h=30);
     }
 
     // Sacrificial layer in nut recess:
@@ -122,7 +130,9 @@ module top()
 
 module pvcXform()
 {
-    translate([0, -(bodyCylOD/2+pvcOD/2), 0]) rotate([0,90,0]) children();
+    pvcOffsetY = bodyCylOD/2 + pvcOD/2 + 1;
+    echo(str("pvcOffsetY-pvcOD/2-boomDia/2 = ", pvcOffsetY-pvcOD/2-boomDia/2));
+    translate([0, -pvcOffsetY, 0]) rotate([0,90,0]) children();
 }
 
 module bottom()
@@ -141,7 +151,7 @@ module bottom()
 
 module clip(d=0)
 {
-	// tc([-200, -200, -d], 400);
+	tc([-200, -200, -d], 400);
 }
 
 if(developmentRender)
