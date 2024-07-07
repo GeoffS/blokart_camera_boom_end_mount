@@ -158,13 +158,31 @@ module drillGuide()
         x = pvcOD + 10;
         y = pvcOD/2 + 5;
         z = 2*screwCtrsOffsetX + drillDia + 10;
-        tcu([-x/2,0,-z/2], [x, y, z]);
+        // tcu([-x/2,0,-z/2], [x, y, z]);
+        translate([-x/2,0,z/2]) rotate([-90,0,0]) roundedCornerBox(x, z, y, 4);
 
         // PVC Tube:
         tcy([0,0,-100], d=pvcOD, h=400);
 
         // Drill guides:
         doubleZ() translate([0,0,screwCtrsOffsetX]) rotate([-90,0,0]) cylinder(d=6.4, h=100);
+    }
+}
+
+module roundedCornerBox(x, y, z, r)
+{
+    x1 = r;
+    y1 = r;
+
+    x2 = x - r;
+    y2 = y - r;
+
+    hull()
+    {
+        tcy([x1, y1, 0], d=2*r, h=z);
+        tcy([x1, y2, 0], d=2*r, h=z);
+        tcy([x2, y1, 0], d=2*r, h=z);
+        tcy([x2, y2, 0], d=2*r, h=z);
     }
 }
 
@@ -175,6 +193,9 @@ module clip(d=0)
 
 if(developmentRender)
 {
+    // display() roundedCornerBox(40, 100, 15, 4);
+
+
     display() drillGuide();
     displayGhost() drillGuidePvcGhost();
 
