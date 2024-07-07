@@ -13,8 +13,9 @@ outhaulClearanceY = 27;
 
 makeTop = false;
 makeBottom = false;
-makeDrillGuide = false;
-makeDrillSupport = false;
+// Commented-out because they take forever to render:
+// makeDrillGuide = false;
+// makeDrillSupport = false;
 
 boomDia = 31;
 
