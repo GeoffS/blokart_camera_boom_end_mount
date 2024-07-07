@@ -13,6 +13,8 @@ outhaulClearanceY = 27;
 
 makeTop = false;
 makeBottom = false;
+makeDrillGuide = false;
+makeDrillSupport = false;
 
 boomDia = 31;
 
@@ -149,7 +151,7 @@ module bottom()
     }
 }
 
-module drillGuide()
+module drillGuideBottom()
 {
     difference()
     {
@@ -159,12 +161,9 @@ module drillGuide()
 
         minkDia = 6;
 
-        x = pvcOD + minkDia; // + 15 - minkDia;
+        x = pvcOD + minkDia;
         y = pvcOD/2 + 5;
         z = 2*screwCtrsOffsetX + drillDia + 10 - minkDia;
-
-        // tcu([-x/2,0,-z/2], [x, y, z]);
-        // translate([-x/2,0,z/2]) rotate([-90,0,0]) roundedCornerBox(x, z, y, 4);
         minkowski() 
         {
             difference()
@@ -181,10 +180,14 @@ module drillGuide()
         // Trim top and botttom "roundness":
         tcu([-200, -400, -200], 400);
         tcu([-200, y, -200], 400);
+    }
+}
 
-        // PVC Tube:
-        // tcy([0,0,-100], d=pvcOD, h=400);
-
+module drillGuideTop()
+{
+    difference()
+    {
+        drillGuideBottom();
         // Drill guides:
         doubleZ() translate([0,0,screwCtrsOffsetX]) rotate([-90,0,0]) cylinder(d=6.4, h=100);
     }
@@ -214,11 +217,12 @@ module clip(d=0)
 
 if(developmentRender)
 {
-    // display() roundedCornerBox(40, 100, 15, 4);
+    display() drillGuideBottom();
 
 
-    display() drillGuide();
-    displayGhost() drillGuidePvcGhost();
+    // display() drillGuideTop();
+    // displayGhost() mirror([0,1,0]) drillGuideBottom();
+    // displayGhost() drillGuidePvcGhost();
 
 
 	// display() top();
@@ -233,8 +237,8 @@ else
 {
 	if(makeTop) rotate([90,0,0]) top();
     if(makeBottom) rotate([-90,0,0]) bottom();
-    if(makeDrillGuide) rotate([90,0,0]) drillGuide();
-    if(makedrillSupport) rotate([90,0,0]) drillSupport();
+    if(makeDrillGuide) rotate([-90,0,0]) drillGuideTop();
+    if(makeDrillSupport) rotate([-90,0,0]) drillGuideBottom();
 }
 
 module boomGhost()
