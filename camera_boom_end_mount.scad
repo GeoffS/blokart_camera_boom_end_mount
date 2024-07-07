@@ -8,8 +8,8 @@ bodyScrewOD = 6;
 m6NutRecessOD = 11.4;
 m6NutRecessZ = 6;
 
-outhaulClearanceX = 3;
-outhaulClearanceY = 25;
+outhaulClearanceX = 2;
+outhaulClearanceY = 27;
 
 makeTop = false;
 makeBottom = false;
