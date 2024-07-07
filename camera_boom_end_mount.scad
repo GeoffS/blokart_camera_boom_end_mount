@@ -153,16 +153,37 @@ module drillGuide()
 {
     difference()
     {
+        doMink = true;
+
         drillDia = 6.4;
 
-        x = pvcOD + 10;
+        minkDia = 6;
+
+        x = pvcOD + minkDia; // + 15 - minkDia;
         y = pvcOD/2 + 5;
-        z = 2*screwCtrsOffsetX + drillDia + 10;
+        z = 2*screwCtrsOffsetX + drillDia + 10 - minkDia;
+
         // tcu([-x/2,0,-z/2], [x, y, z]);
-        translate([-x/2,0,z/2]) rotate([-90,0,0]) roundedCornerBox(x, z, y, 4);
+        // translate([-x/2,0,z/2]) rotate([-90,0,0]) roundedCornerBox(x, z, y, 4);
+        minkowski() 
+        {
+            difference()
+            {
+                tcu([-x/2,0,-z/2], [x, y, z]);
+                // PVC Tube:
+                tcy([0,0,-100], d=pvcOD+minkDia, h=400);
+
+                
+            }
+            if(doMink) sphere(d=minkDia);
+        }
+
+        // Trim top and botttom "roundness":
+        tcu([-200, -400, -200], 400);
+        tcu([-200, y, -200], 400);
 
         // PVC Tube:
-        tcy([0,0,-100], d=pvcOD, h=400);
+        // tcy([0,0,-100], d=pvcOD, h=400);
 
         // Drill guides:
         doubleZ() translate([0,0,screwCtrsOffsetX]) rotate([-90,0,0]) cylinder(d=6.4, h=100);
