@@ -149,25 +149,50 @@ module bottom()
     }
 }
 
+module drillGuide()
+{
+    difference()
+    {
+        drillDia = 6.4;
+
+        x = pvcOD + 10;
+        y = pvcOD/2 + 5;
+        z = 2*screwCtrsOffsetX + drillDia + 10;
+        tcu([-x/2,0,-z/2], [x, y, z]);
+
+        // PVC Tube:
+        tcy([0,0,-100], d=pvcOD, h=400);
+
+        // Drill guides:
+        doubleZ() translate([0,0,screwCtrsOffsetX]) rotate([-90,0,0]) cylinder(d=6.4, h=100);
+    }
+}
+
 module clip(d=0)
 {
-	tc([-200, -200, -d], 400);
+	// tc([-200, -200, -d], 400);
 }
 
 if(developmentRender)
 {
-	display() top();
-    display() bottom();
+    display() drillGuide();
+    displayGhost() drillGuidePvcGhost();
 
-    displayGhost() boomGhost();
-    displayGhost() outhaulGhost();
-    displayGhost() bodyScrewGhost();
-    displayGhost() pvcGhost();
+
+	// display() top();
+    // display() bottom();
+
+    // displayGhost() boomGhost();
+    // displayGhost() outhaulGhost();
+    // displayGhost() bodyScrewGhost();
+    // displayGhost() pvcGhost();
 }
 else
 {
 	if(makeTop) rotate([90,0,0]) top();
     if(makeBottom) rotate([-90,0,0]) bottom();
+    if(makeDrillGuide) rotate([90,0,0]) drillGuide();
+    if(makedrillSupport) rotate([90,0,0]) drillSupport();
 }
 
 module boomGhost()
@@ -188,4 +213,9 @@ module bodyScrewGhost()
 module pvcGhost()
 {
     pvcXform() tcy([0,0,-35], d=pvcOD, h=200);
+}
+
+module drillGuidePvcGhost()
+{
+    tcy([0,0,-100], d=pvcOD, h=200);
 }
