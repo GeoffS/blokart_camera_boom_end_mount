@@ -161,8 +161,8 @@ if(developmentRender)
 
     displayGhost() boomGhost();
     displayGhost() outhaulGhost();
-    // displayGhost() bodyScrewGhost();
-    // displayGhost() pvcGhost();
+    displayGhost() bodyScrewGhost();
+    displayGhost() pvcGhost();
 }
 else
 {
@@ -187,5 +187,5 @@ module bodyScrewGhost()
 
 module pvcGhost()
 {
-    mirror([0,1,0]) pvcXform() tcy([0,0,-35], d=pvcOD, h=200);
+    pvcXform() tcy([0,0,-35], d=pvcOD, h=200);
 }
