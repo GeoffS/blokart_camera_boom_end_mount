@@ -64,8 +64,12 @@ module pipeClamp()
         // Clamp-Bolt hole:
         clampBoltXform() 
         {
+            // Bolt:
             tcy([0,0,-100], d=clampBoltHoleDia, h=200);
-            translate([0,0,clampBoltCylZ-m6NutRecessZ]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
+            // Nut:
+            translate([0,0,clampBoltCylZ-m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
+            // Head:
+            translate([0,0,-20]) simpleChamferedCylinderDoubleEnded1(d=clampBoltHeadDia+8, h=20, cz=4); //cylinder(d=clampBoltHeadDia, h=20);
         }
     }
 }
@@ -83,6 +87,7 @@ module cameraMount()
 module clip(d=0)
 {
 	// tc([-200, -400-d, -200], 400);
+    tcu([-200, -200, 0+d], 400);
 }
 
 if(developmentRender)
