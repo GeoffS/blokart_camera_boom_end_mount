@@ -21,7 +21,10 @@ bodyCylZ = cameraAdapterDia;
 bodyCylOD = 50;
 bodyCylCZ = 4;
 
-clampBoltZ = 33;
+clampBoltCylZ = 43;
+clampBoltCylCZ = 2;
+clampBoltCylDia = max(clampBoltHeadDia, m6NutRecessOD+1) + 2*clampBoltCylCZ;
+clampBoltCylCtr = bodyCylOD/2 - clampBoltCylDia/2;
 
 module pipeClamp()
 {
@@ -35,9 +38,20 @@ module pipeClamp()
             // Clamp-bolt:
             clampBoltXform() difference() 
             {
-                cscz = 2;
-                csd = max(clampBoltHeadDia, m6NutRecessOD+1) + 2*cscz;
-                simpleChamferedCylinderDoubleEnded1(d=csd, h=clampBoltZ, cz=cscz);
+                hull()
+                {
+                    simpleChamferedCylinderDoubleEnded1(d=clampBoltCylDia, h=clampBoltCylZ, cz=clampBoltCylCZ);
+                    translate([-12.4,0,0]) difference()
+                    {
+                        simpleChamferedCylinderDoubleEnded1(d=bodyCylZ, h=clampBoltCylZ, cz=clampBoltCylCZ);
+                        tcu([-400,-200,-200], 400);
+                    }
+                }
+                doubleY() tcu([-200,bodyCylZ/2-bodyCylCZ,-200], 400);
+
+                // // Check on 45 degree angle of the clamp-cylinder extension:
+                // xy = 13;
+                // %rotate([0,0,45]) tcu([-xy/2, -xy/2, 0], [xy, xy, 80]);
             }
         }
 
@@ -51,14 +65,14 @@ module pipeClamp()
         clampBoltXform() 
         {
             tcy([0,0,-100], d=clampBoltHoleDia, h=200);
-            translate([0,0,clampBoltZ-m6NutRecessZ]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
+            translate([0,0,clampBoltCylZ-m6NutRecessZ]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
         }
     }
 }
 
 module clampBoltXform()
 {
-    translate([bodyCylOD/2, -clampBoltZ/2, 0]) rotate([-90,0,0]) children();
+    translate([clampBoltCylCtr, -clampBoltCylZ/2, 0]) rotate([-90,0,0]) children();
 }
 
 module cameraMount()
