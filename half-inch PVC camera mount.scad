@@ -21,7 +21,7 @@ bodyCylZ = cameraAdapterDia;
 bodyCylOD = 50;
 bodyCylCZ = 4;
 
-clampBoltCylZ = 44;
+clampBoltCylZ = 40;
 clampBoltCylCZ = 2;
 clampBoltCylDia = max(clampBoltHeadDia, m6NutRecessOD+1) + 2*clampBoltCylCZ;
 clampBoltCylCtr = bodyCylOD/2 - clampBoltCylDia/2 - 0.5;
@@ -87,7 +87,7 @@ module cameraMount()
 module clip(d=0)
 {
 	// tc([-200, -400-d, -200], 400);
-    // tcu([-200, -200, 0+d], 400);
+    tcu([-200, -200, 0+d], 400);
 }
 
 if(developmentRender)
