@@ -68,11 +68,20 @@ module pipeClamp()
             // Bolt:
             tcy([0,0,-100], d=clampBoltHoleDia, h=200);
             // Nut:
-            translate([0,0,clampBoltCylZ-m6NutRecessZ]) rotate([0,0,0]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
-            // Head:
-            translate([0,0,-20]) simpleChamferedCylinderDoubleEnded1(d=clampBoldFaceDia+20+0.8, h=20, cz=10); //cylinder(d=clampBoltHeadDia, h=20);
+            translate([0,0,clampBoltCylZ]) rotate([0,0,0]) 
+            {
+                tcy([0,0,-m6NutRecessZ], d=m6NutRecessOD, h=20, $fn=6);
+            }
+            // Both faces:
+            clampBoltFaceChamfer();
+            translate([0,0,clampBoltCylZ]) mirror([0,0,1]) clampBoltFaceChamfer();
         }
     }
+}
+
+module clampBoltFaceChamfer()
+{
+    translate([0,0,-20]) simpleChamferedCylinderDoubleEnded1(d=clampBoldFaceDia+20+0.8, h=20, cz=10); 
 }
 
 module clampBoltXform()
