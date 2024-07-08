@@ -21,10 +21,10 @@ bodyCylZ = cameraAdapterDia;
 bodyCylOD = 50;
 bodyCylCZ = 4;
 
-clampBoltCylZ = 43;
+clampBoltCylZ = 44;
 clampBoltCylCZ = 2;
 clampBoltCylDia = max(clampBoltHeadDia, m6NutRecessOD+1) + 2*clampBoltCylCZ;
-clampBoltCylCtr = bodyCylOD/2 - clampBoltCylDia/2;
+clampBoltCylCtr = bodyCylOD/2 - clampBoltCylDia/2 - 0.5;
 
 module pipeClamp()
 {
@@ -67,7 +67,7 @@ module pipeClamp()
             // Bolt:
             tcy([0,0,-100], d=clampBoltHoleDia, h=200);
             // Nut:
-            translate([0,0,clampBoltCylZ-m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
+            translate([0,0,clampBoltCylZ-m6NutRecessZ]) rotate([0,0,0]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
             // Head:
             translate([0,0,-20]) simpleChamferedCylinderDoubleEnded1(d=clampBoltHeadDia+8, h=20, cz=4); //cylinder(d=clampBoltHeadDia, h=20);
         }
@@ -87,7 +87,7 @@ module cameraMount()
 module clip(d=0)
 {
 	// tc([-200, -400-d, -200], 400);
-    tcu([-200, -200, 0+d], 400);
+    // tcu([-200, -200, 0+d], 400);
 }
 
 if(developmentRender)
