@@ -18,9 +18,10 @@ m6NutRecessZ = 6.2;
 cameraAdapterDia = 34;
 cameraMountBoltDia = 6.5;
 
-bodyCylZ = cameraAdapterDia;
+
+bodyCylCZ = 3;
+bodyCylZ = cameraAdapterDia + 2*bodyCylCZ;
 bodyCylOD = 50;
-bodyCylCZ = 4;
 
 clampBoltCylZ = 32.2;
 clampBoltCylCZ = 2;
@@ -31,7 +32,7 @@ clampBoltCylCtr = bodyCylOD/2 - clampBoltCylDia/2 - 0.5;
 
 cameraMountSurfaceY = 20;
 
-cameraMountSurfaceOffsetX = -pvcOD/2 - cameraMountBoltDia/2 -1;
+cameraMountSurfaceOffsetX = -pvcOD/2 - cameraMountBoltDia/2 - 3;
 cameraMountSurfaceOffsetY = -bodyCylOD/2 + cameraMountSurfaceY; // -bodyCylZ/2; // + cameraMountSurfaceY;
 
 module pipeClamp()
@@ -64,7 +65,7 @@ module pipeClamp()
             // Rotating camera-mount surface:
             hull()
             {
-                cameraMountSurfaceXform() simpleChamferedCylinderDoubleEnded1(d=cameraAdapterDia, h=cameraMountSurfaceY, cz=bodyCylCZ);
+                cameraMountSurfaceXform() simpleChamferedCylinderDoubleEnded1(d=bodyCylZ, h=cameraMountSurfaceY, cz=bodyCylCZ);
                 difference()
                 {
                     mainBody();
@@ -94,9 +95,13 @@ module pipeClamp()
             translate([0,0,clampBoltCylZ]) mirror([0,0,1]) clampBoltFaceChamfer();
         }
 
-        // Rotating camera-mount surface bolt hole:
-        cameraMountSurfaceXform() tcy([0,0,-50], d=cameraMountBoltDia, h=100);
+        cameraMountSurfaceBoltHole();
     }
+}
+
+module cameraMountSurfaceBoltHole(dOD=0)
+{
+    cameraMountSurfaceXform() tcy([0,0,-50], d=cameraMountBoltDia-dOD, h=100);
 }
 
 module mainBody()
@@ -127,15 +132,25 @@ module cameraMount()
 module clip(d=0)
 {
 	// tc([-200, -400-d, -200], 400);
-    tcu([-200, -200, 0+d], 400);
+    // tcu([-200, -200, 0+d], 400);
 }
 
 if(developmentRender)
 {
 	display() pipeClamp();
+    displayGhost() rightAngleCameraMountGhost();
 }
 else
 {
 	if(makePipeClamp) pipeClamp();
     if(makeCameraMount) cameraMount();
+}
+
+module rightAngleCameraMountGhost()
+{
+    difference() 
+    {
+        cameraMountSurfaceXform() tcy([0,0,cameraMountSurfaceY], d=cameraAdapterDia, h=2);
+        cameraMountSurfaceBoltHole(dOD=-0.01);
+    }
 }
