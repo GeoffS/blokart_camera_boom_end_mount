@@ -17,6 +17,7 @@ m6NutRecessZ = 6.2;
 
 cameraAdapterDia = 34;
 cameraMountBoltDia = 6.5;
+caameraMountBoltHeadDia = 12; // 1/4-20 Button-Head hex
 
 
 bodyCylCZ = 3;
@@ -28,7 +29,6 @@ clampBoltCylCZ = 2;
 clampBoldFaceDia = max(clampBoltHeadDia, m6NutRecessOD+1);
 clampBoltCylDia = clampBoldFaceDia + 2*clampBoltCylCZ;
 clampBoltCylCtr = bodyCylOD/2 - clampBoltCylDia/2 - 0.5;
-
 
 cameraMountSurfaceY = 20;
 
@@ -101,7 +101,11 @@ module pipeClamp()
 
 module cameraMountSurfaceBoltHole(dOD=0)
 {
-    cameraMountSurfaceXform() tcy([0,0,-50], d=cameraMountBoltDia-dOD, h=100);
+    cameraMountSurfaceXform() 
+    {
+        tcy([0,0,-50], d=cameraMountBoltDia-dOD, h=100);
+        tcy([0,0,-100+cameraMountSurfaceY-6], d=caameraMountBoltHeadDia, h=100);
+    }
 }
 
 module mainBody()
