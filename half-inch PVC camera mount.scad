@@ -16,6 +16,7 @@ m6NutRecessOD = 11.5;
 m6NutRecessZ = 6.2;
 
 cameraAdapterDia = 34;
+cameraMountBoltDia = 6.5;
 
 bodyCylZ = cameraAdapterDia;
 bodyCylOD = 50;
@@ -27,14 +28,19 @@ clampBoldFaceDia = max(clampBoltHeadDia, m6NutRecessOD+1);
 clampBoltCylDia = clampBoldFaceDia + 2*clampBoltCylCZ;
 clampBoltCylCtr = bodyCylOD/2 - clampBoltCylDia/2 - 0.5;
 
+
+cameraMountSurfaceY = 20;
+
+cameraMountSurfaceOffsetX = -pvcOD/2 - cameraMountBoltDia/2 -1;
+cameraMountSurfaceOffsetY = -bodyCylOD/2 + cameraMountSurfaceY; // -bodyCylZ/2; // + cameraMountSurfaceY;
+
 module pipeClamp()
 {
 	difference()
     {
         union()
         {
-            // Main body:
-            translate([0,0,-bodyCylZ/2]) simpleChamferedCylinderDoubleEnded1(d=bodyCylOD, h=bodyCylZ, cz=bodyCylCZ);
+            mainBody();
 
             // Clamp-bolt:
             clampBoltXform() difference() 
@@ -54,6 +60,17 @@ module pipeClamp()
                 // xy = 13;
                 // %rotate([0,0,45]) tcu([-xy/2, -xy/2, 0], [xy, xy, 80]);
             }
+
+            // Rotating camera-mount surface:
+            hull()
+            {
+                cameraMountSurfaceXform() simpleChamferedCylinderDoubleEnded1(d=cameraAdapterDia, h=cameraMountSurfaceY, cz=bodyCylCZ);
+                difference()
+                {
+                    mainBody();
+                    tcu([0,-200,-200], 400);
+                }
+            }
         }
 
         // Pipe:
@@ -70,13 +87,26 @@ module pipeClamp()
             // Nut:
             translate([0,0,clampBoltCylZ]) rotate([0,0,0]) 
             {
-                tcy([0,0,-m6NutRecessZ], d=m6NutRecessOD, h=20, $fn=6);
+                tcy([0, 0, -m6NutRecessZ], d=m6NutRecessOD, h=20, $fn=6);
             }
             // Both faces:
             clampBoltFaceChamfer();
             translate([0,0,clampBoltCylZ]) mirror([0,0,1]) clampBoltFaceChamfer();
         }
+
+        // Rotating camera-mount surface bolt hole:
+        cameraMountSurfaceXform() tcy([0,0,-50], d=cameraMountBoltDia, h=100);
     }
+}
+
+module mainBody()
+{
+    translate([0,0,-bodyCylZ/2]) simpleChamferedCylinderDoubleEnded1(d=bodyCylOD, h=bodyCylZ, cz=bodyCylCZ);
+}
+
+module cameraMountSurfaceXform()
+{
+    translate([cameraMountSurfaceOffsetX, cameraMountSurfaceOffsetY, 0]) rotate([90,0,0]) children();
 }
 
 module clampBoltFaceChamfer()
@@ -97,7 +127,7 @@ module cameraMount()
 module clip(d=0)
 {
 	// tc([-200, -400-d, -200], 400);
-    // tcu([-200, -200, 0+d], 400);
+    tcu([-200, -200, 0+d], 400);
 }
 
 if(developmentRender)
