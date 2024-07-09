@@ -20,7 +20,7 @@ cameraMountBoltDia = 6.5;
 
 
 bodyCylCZ = 3;
-bodyCylZ = cameraAdapterDia + 2*bodyCylCZ;
+bodyCylZ = (cameraAdapterDia + 2*bodyCylCZ); // * (1/cos(22.5));
 bodyCylOD = 50;
 
 clampBoltCylZ = 32.2;
@@ -32,7 +32,7 @@ clampBoltCylCtr = bodyCylOD/2 - clampBoltCylDia/2 - 0.5;
 
 cameraMountSurfaceY = 20;
 
-cameraMountSurfaceOffsetX = -pvcOD/2 - cameraMountBoltDia/2 - 3;
+cameraMountSurfaceOffsetX = -pvcOD/2 - cameraMountBoltDia/2 - 3.5;
 cameraMountSurfaceOffsetY = -bodyCylOD/2 + cameraMountSurfaceY; // -bodyCylZ/2; // + cameraMountSurfaceY;
 
 module pipeClamp()
@@ -65,7 +65,7 @@ module pipeClamp()
             // Rotating camera-mount surface:
             hull()
             {
-                cameraMountSurfaceXform() simpleChamferedCylinderDoubleEnded1(d=bodyCylZ, h=cameraMountSurfaceY, cz=bodyCylCZ);
+                cameraMountSurfaceXform() rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded1(d=bodyCylZ * (1/cos(22.5)), h=cameraMountSurfaceY, cz=bodyCylCZ, $fn=8);
                 difference()
                 {
                     mainBody();
