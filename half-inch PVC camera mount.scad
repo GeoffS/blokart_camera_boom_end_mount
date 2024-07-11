@@ -162,13 +162,15 @@ module cameraMount()
             sphere(r=mr);
         }
 
-        chamferOffsetZ = (cameraMountOD/2)/tan(45);
-        // chamferOffsetZ = 20.92;
-        echo("chamferOffsetZ = ", chamferOffsetZ);
-        translate([0,0,-d1/2-10-chamferOffsetZ]) difference()
+        // chamferOffsetZ = (cameraMountOD/2)/tan(45);
+        // echo("chamferOffsetZ = ", chamferOffsetZ);
+        h = 30;
+        dz = -cameraMountOD/2 - 16.8; 
+        echo(str("dz = ", dz));
+        translate([0,0,dz]) difference()
         {
-            cylinder(d=100, h=50);
-            translate([0,0,10]) cylinder(d1=0, d2=100, h=50);
+            cylinder(d=100, h=h);
+            translate([0,0,0]) cylinder(d1=0, d2=2*h, h=h);
         }
 
         translate([0,0,-100]) cylinder(d=dh1, h=200);
@@ -190,7 +192,7 @@ module clip(d=0)
 {
 	// tcu([-200, -400-d, -200], 400);
     // tcu([-200, -200, 0+d], 400);
-    tcu([0-d, -200, -200], 400);
+    // tcu([0-d, -200, -200], 400);
 
     // tcu([-200, -d, -200], 400);
     // tcu([0+d, -200, -200], 400);
