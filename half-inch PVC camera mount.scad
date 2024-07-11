@@ -203,11 +203,14 @@ if(developmentRender)
     $fa = 20;
     $fs = 2;
 
-    display() cameraMount();
-    displayGhost() cameraMountGhost();
+    // display() cameraMount();
+    // displayGhost() cameraMountGhost();
 
 	// display() pipeClamp();
     // displayGhost() rightAngleCameraMountGhost();
+
+    display() pipeClamp();
+    displayGhost() translate([-17.655, -47, 0]) rotate([0,90,0]) rotate([90,0,0]) cameraMount();
 }
 else
 {
