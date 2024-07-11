@@ -181,30 +181,6 @@ module cameraMount()
     }
 }
 
-    // difference()
-    // {
-    //     hull()
-    //     {
-    //         simpleChamferedCylinderDoubleEnded1(d=bodyCylOD, h=bodyCylOD, cz=bodyCylCZ);
-    //         cameraMountXform() simpleChamferedCylinderDoubleEnded1(d=bodyCylOD, h=bodyCylOD, cz=bodyCylCZ);
-    //     }
-
-    //     // Trim off the diagonal:
-    //     rotate([-45,0,0]) tcu([-200, -15.55, -200], 400);
-
-    //     // Camera adapter bolt hole:
-    //     tcy([0,0,-10], d=cameraMountBoltDia, h=100);
-    //     tcy([0,0,-100+bodyCylOD-8.5], d=caameraMountBoltHeadDia, h=100);
-
-    //     // Camera mount bolt hole:
-    //     cameraMountXform()
-    //     {
-    //         tcy([0,0,-10], d=cameraMountBoltDia, h=100);
-    //         tcy([0,0,-100+bodyCylOD-8.5], d=caameraMountBoltHeadDia, h=100);
-    //     }
-    // }
-// }
-
 module cameraMountXform()
 {
     translate([0, bodyCylOD/2, bodyCylOD/2]) rotate([90,0,0]) children();
