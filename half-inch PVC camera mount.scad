@@ -18,6 +18,8 @@ m6NutRecessZ = 6.2;
 cameraAdapterDia = 34;
 cameraMountBoltDia = 6.5;
 caameraMountBoltHeadDia = 12; // 1/4-20 Button-Head hex
+cameraMountNutDia = 12.65;
+cameraMountNutRecessDepth = 8;
 
 
 bodyCylCZ = 3;
@@ -137,9 +139,12 @@ echo("cameraMountOD = ", cameraMountOD);
 module cameraMount()
 {
     d1 = cameraAdapterDia;
+    d1Ext = d1 + md;
 
     dh1 = cameraMountBoltDia;
     dh2 = caameraMountBoltHeadDia;
+
+
 
     difference()
     {
@@ -153,7 +158,7 @@ module cameraMount()
                     translate([0,-d1/2,0]) rotate([-90,0,0]) cylinder(d=d1, h=d1);
                 }
 
-                translate([0,0,-10-mr]) cylinder(d=dh2+md, h=200);
+                translate([0,0,-10-mr]) cylinder(d=cameraMountNutDia+md, h=200);
                 rotate([-90,0,0]) translate([0,0,-10-mr]) cylinder(d=dh2+md, h=200);
 
                 rotate([45,0,0]) translate([-200,0,-200]) cube(400);
@@ -173,12 +178,19 @@ module cameraMount()
             translate([0,0,0]) cylinder(d1=0, d2=2*h, h=h);
         }
 
+        // Connection to the right-angle clamp:
         translate([0,0,-100]) cylinder(d=dh1, h=200);
-        translate([0,0,-10]) cylinder(d=dh2, h=200);
+        translate([0,0,-d1Ext/2 + 4]) cylinder(d=cameraMountNutDia, h=200, $fn=6);
+
+        // Connection to GoPro threaded adapter:
+        threadDepthIntoAdapter = 4.3;
+        adapterBoltLength = 12.5;
+        adapterThickness = adapterBoltLength - threadDepthIntoAdapter;
+        echo(str("adapterThickness = ", adapterThickness));
         rotate([-90,0,0])
         {
             translate([0,0,-100]) cylinder(d=dh1, h=200);
-            translate([0,0,-10]) cylinder(d=dh2, h=200);
+            translate([0,0,-d1Ext/2 + adapterThickness]) cylinder(d=dh2, h=200);
         }
     }
 }
@@ -192,7 +204,7 @@ module clip(d=0)
 {
 	// tcu([-200, -400-d, -200], 400);
     // tcu([-200, -200, 0+d], 400);
-    // tcu([0-d, -200, -200], 400);
+    tcu([0-d, -200, -200], 400);
 
     // tcu([-200, -d, -200], 400);
     // tcu([0+d, -200, -200], 400);
@@ -203,14 +215,14 @@ if(developmentRender)
     $fa = 20;
     $fs = 2;
 
-    // display() cameraMount();
+    display() cameraMount();
     // displayGhost() cameraMountGhost();
 
 	// display() pipeClamp();
     // displayGhost() rightAngleCameraMountGhost();
 
-    display() pipeClamp();
-    displayGhost() translate([-17.655, -47, 0]) rotate([0,90,0]) rotate([90,0,0]) cameraMount();
+    // display() pipeClamp();
+    // display() translate([-17.655, -47, 0]) rotate([0,90,0]) rotate([90,0,0]) cameraMount();
 }
 else
 {
