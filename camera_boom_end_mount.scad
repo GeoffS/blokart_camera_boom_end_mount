@@ -182,7 +182,7 @@ module angledTop()
     }
 
     // Sacrificial layer in nut recess:
-    bodyScrewXform() tcy([0,0,m6NutRecessZ], d=8, h=upperLayersZ);
+    doubleX() bodyScrewXform() tcy([0,0,m6NutRecessZ], d=8, h=upperLayersZ);
 }
 
 setScrewHoleDia = 5.5;
