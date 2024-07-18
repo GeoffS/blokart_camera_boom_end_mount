@@ -169,12 +169,23 @@ module angledTop()
         mirror([1,0,0]) nutRecess(longNutRecessH);
 
         // PVC m6 set-screw:
-        #translate([0,0,0]) rotate([0,0,pvcAngle]) translate([-11,0,0]) rotate([90,0,0]) cylinder(d=5.5, h=40);
+        rotate([0,0,pvcAngle]) translate([-11,0,0]) rotate([90,0,0]) 
+        {
+            cylinder(d=setScrewHoleDia, h=40);
+            translate([0,0,-4]) hull()
+            {
+                offsetZ = 12;
+                tcy([0,0,40-offsetZ+2], d=setScrewHoleDia, h=0.1);
+                tcy([0,0,-offsetZ], d=setScrewHoleDia+1, h=40);
+            }
+        }
     }
 
     // Sacrificial layer in nut recess:
     bodyScrewXform() tcy([0,0,m6NutRecessZ], d=8, h=upperLayersZ);
 }
+
+setScrewHoleDia = 5.5;
 
 module nutRecess(nutRecessH)
 {
@@ -283,7 +294,7 @@ module roundedCornerBox(x, y, z, r)
 
 module clip(d=0)
 {
-	// tc([-200, -200, -d], 400);
+	tc([-200, -200, -d], 400);
 }
 
 if(developmentRender)
