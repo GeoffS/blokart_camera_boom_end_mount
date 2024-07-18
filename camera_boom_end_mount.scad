@@ -68,7 +68,7 @@ module boomPart()
 
 module screwPart()
 {
-    bodyScrewXform() simpleChamferedCylinderDoubleEnded1(d=screwCylOD, h=screwCylY, cz=screwCylCY);
+    doubleX() bodyScrewXform() simpleChamferedCylinderDoubleEnded1(d=screwCylOD, h=screwCylY, cz=screwCylCY);
 
     difference()
     {
@@ -314,7 +314,7 @@ module bodyScrewGhost()
 
 module angledPvcGhost()
 {
-    angledPvcXform() tcy([0,0,-44], d=pvcOD, h=200);
+    angledPvcXform() tcy([0,0,-50], d=pvcOD, h=200);
 }
 
 module pvcGhost()
