@@ -13,6 +13,7 @@ outhaulClearanceY = 27;
 
 makeTop = false;
 makeBottom = false;
+makeAngledTop = false;
 // Commented-out because they take forever to render:
 // makeDrillGuide = false;
 // makeDrillSupport = false;
@@ -294,7 +295,7 @@ module roundedCornerBox(x, y, z, r)
 
 module clip(d=0)
 {
-	tc([-200, -200, -d], 400);
+	// tc([-200, -200, -d], 400);
 }
 
 if(developmentRender)
@@ -320,9 +321,10 @@ if(developmentRender)
 else
 {
 	if(makeTop) rotate([90,0,0]) top();
+    if(makeAngledTop) rotate([0,pvcAngle,0]) rotate([90,0,0]) angledTop();
     if(makeBottom) rotate([-90,0,0]) bottom();
-    if(makeDrillGuide) rotate([-90,0,0]) drillGuideTop();
-    if(makeDrillSupport) rotate([-90,0,0]) drillGuideBottom();
+    // if(makeDrillGuide) rotate([-90,0,0]) drillGuideTop();
+    // if(makeDrillSupport) rotate([-90,0,0]) drillGuideBottom();
 }
 
 module boomGhost()
