@@ -309,7 +309,7 @@ module outhaulGhost()
 
 module bodyScrewGhost()
 {
-    bodyScrewXform() tcy([0,0,-10], d=bodyScrewOD, h=100);
+    doubleX() bodyScrewXform() tcy([0,0,-10], d=bodyScrewOD, h=100);
 }
 
 module angledPvcGhost()
