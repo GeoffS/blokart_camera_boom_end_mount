@@ -165,7 +165,18 @@ module angledTop()
         shortNutRecessH = 20;
         longNutRecessH = 35;
         bodyScrewXform() translate([0,0,-shortNutRecessH+m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=shortNutRecessH, $fn=6);
-        mirror([1,0,0]) bodyScrewXform() translate([0,0,-longNutRecessH+m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=longNutRecessH, $fn=6);
+        mirror([1,0,0]) bodyScrewXform() translate([0,0,-longNutRecessH+m6NutRecessZ]) rotate([0,0,30]) 
+        {
+            // Nut recess:
+            cylinder(d=m6NutRecessOD, h=longNutRecessH, $fn=6);
+            hull()
+            {
+                extraOffset = 6;
+                // Tapered nut "starter" section:
+                tcy([0,0,longNutRecessH-extraOffset], d=m6NutRecessOD, h=1, $fn=6);
+                tcy([0,0,0], d=m6NutRecessOD+1, h=longNutRecessH-extraOffset-4);
+            }
+        }
 
         // PVC m6 set-screw:
         translate([0,0,0]) rotate([90,0,0]) cylinder(d=5.5, h=30);
