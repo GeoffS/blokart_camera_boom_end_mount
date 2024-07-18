@@ -131,6 +131,54 @@ module top()
     bodyScrewXform() tcy([0,0,m6NutRecessZ], d=8, h=upperLayersZ);
 }
 
+module angledTop()
+{
+    difference()
+    {
+        union()
+        {
+            boomPart();
+            hull()
+            {
+                screwPart();
+                pvcX = 2*screwCtrsOffsetX + screwCylOD;
+                pvcCylOD = min(pvcOD+14, bodyCylZ * (1/cos(22.5)));
+                echo(str("pvcCylOD = ", pvcCylOD));
+                pvcXform() translate([0,0,-pvcX/2]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded1fn(d=pvcCylOD, h=pvcX, cz=4, fn=8);
+            }
+        }
+
+        // PVC tube opening with flat to make it printable:
+        angledPvcXform() translate([0,0,-100]) hull()
+        {
+            cylinder(d=pvcOD, h=200);
+            x = 8; //m6NutRecessOD + 1;
+            tcu([-x/2, 0, 0], [x, pvcOD/2, 200]);
+        }
+
+        boom();
+        screws();
+
+        // Nut recesses:
+        bodyScrewXform() translate([0,0,-20+m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
+
+        // PVC m6 set-screw:
+        translate([0,0,0]) rotate([90,0,0]) cylinder(d=5.5, h=30);
+    }
+
+    // Sacrificial layer in nut recess:
+    bodyScrewXform() tcy([0,0,m6NutRecessZ], d=8, h=upperLayersZ);
+}
+
+pvcAngle = 20;
+
+module angledPvcXform()
+{
+    pvcOffsetY = bodyCylOD/2 + pvcOD/2 + 1;
+    echo(str("pvcOffsetY-pvcOD/2-boomDia/2 = ", pvcOffsetY-pvcOD/2-boomDia/2));
+    rotate([0,0,pvcAngle]) translate([0, -pvcOffsetY, 0]) rotate([0,90,0]) children();
+}
+
 module pvcXform()
 {
     pvcOffsetY = bodyCylOD/2 + pvcOD/2 + 1;
@@ -218,7 +266,7 @@ module clip(d=0)
 
 if(developmentRender)
 {
-    display() drillGuideBottom();
+    // display() drillGuideBottom();
 
 
     // display() drillGuideTop();
@@ -226,13 +274,15 @@ if(developmentRender)
     // displayGhost() drillGuidePvcGhost();
 
 
-	// display() top();
+	display() angledTop();
+    // display() top();
     // display() bottom();
 
-    // displayGhost() boomGhost();
-    // displayGhost() outhaulGhost();
-    // displayGhost() bodyScrewGhost();
+    displayGhost() boomGhost();
+    displayGhost() outhaulGhost();
+    displayGhost() bodyScrewGhost();
     // displayGhost() pvcGhost();
+    displayGhost() angledPvcGhost();
 }
 else
 {
@@ -257,9 +307,14 @@ module bodyScrewGhost()
     bodyScrewXform() tcy([0,0,-10], d=bodyScrewOD, h=100);
 }
 
+module angledPvcGhost()
+{
+    angledPvcXform() tcy([0,0,-44], d=pvcOD, h=200);
+}
+
 module pvcGhost()
 {
-    pvcXform() tcy([0,0,-35], d=pvcOD, h=200);
+    rotate([0,0,0]) pvcXform() tcy([0,0,-35], d=pvcOD, h=200);
 }
 
 module drillGuidePvcGhost()
