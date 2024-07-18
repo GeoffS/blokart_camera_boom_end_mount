@@ -143,7 +143,7 @@ module angledTop()
                 screwPart();
                 pvcX = 65; //2*screwCtrsOffsetX + screwCylOD;
                 echo(str("pvcX (angled) = ", pvcX));
-                pcvOffsetX = -pvcX/2 - 15;
+                pcvOffsetX = -pvcX/2 - 16.45;
                 pvcCylOD = min(pvcOD+14, bodyCylZ * (1/cos(22.5)));
                 echo(str("pvcCylOD = ", pvcCylOD));
                 angledPvcXform() translate([0,0,pcvOffsetX]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded1fn(d=pvcCylOD, h=pvcX, cz=4, fn=8);
@@ -179,7 +179,7 @@ pvcAngle = 25;
 
 module angledPvcXform()
 {
-    pvcOffsetY = bodyCylOD/2 + pvcOD/2 + 10;
+    pvcOffsetY = bodyCylOD/2 + pvcOD/2 + 11;
     echo(str("pvcOffsetY-pvcOD/2-boomDia/2 = ", pvcOffsetY-pvcOD/2-boomDia/2));
     rotate([0,0,pvcAngle]) translate([0, -pvcOffsetY, 0]) rotate([0,90,0]) children();
 }
