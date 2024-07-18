@@ -79,7 +79,7 @@ module screwPart()
 
 module bodyScrewXform()
 {
-    doubleX() translate([screwCtrsOffsetX, -screwTotalCylY/2, 0]) rotate([-90,0,0]) children();
+    translate([screwCtrsOffsetX, -screwTotalCylY/2, 0]) rotate([-90,0,0]) children();
 }
 
 module boom()
@@ -89,7 +89,7 @@ module boom()
 
 module screws()
 {
-    bodyScrewXform() tcy([0,0,-10], d=bodyScrewHoleDia, h=200);
+    doubleX() bodyScrewXform() tcy([0,0,-10], d=bodyScrewHoleDia, h=200);
 }
 
 module top()
@@ -121,7 +121,7 @@ module top()
         screws();
 
         // Nut recesses:
-        bodyScrewXform() translate([0,0,-20+m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
+        doubleX() bodyScrewXform() translate([0,0,-20+m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
 
         // PVC m6 set-screw:
         translate([0,0,0]) rotate([90,0,0]) cylinder(d=5.5, h=30);
@@ -141,10 +141,12 @@ module angledTop()
             hull()
             {
                 screwPart();
-                pvcX = 2*screwCtrsOffsetX + screwCylOD;
+                pvcX = 65; //2*screwCtrsOffsetX + screwCylOD;
+                echo(str("pvcX (angled) = ", pvcX));
+                pcvOffsetX = -pvcX/2 - 15;
                 pvcCylOD = min(pvcOD+14, bodyCylZ * (1/cos(22.5)));
                 echo(str("pvcCylOD = ", pvcCylOD));
-                pvcXform() translate([0,0,-pvcX/2]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded1fn(d=pvcCylOD, h=pvcX, cz=4, fn=8);
+                angledPvcXform() translate([0,0,pcvOffsetX]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded1fn(d=pvcCylOD, h=pvcX, cz=4, fn=8);
             }
         }
 
@@ -160,7 +162,10 @@ module angledTop()
         screws();
 
         // Nut recesses:
-        bodyScrewXform() translate([0,0,-20+m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=20, $fn=6);
+        shortNutRecessH = 20;
+        longNutRecessH = 35;
+        bodyScrewXform() translate([0,0,-shortNutRecessH+m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=shortNutRecessH, $fn=6);
+        mirror([1,0,0]) bodyScrewXform() translate([0,0,-longNutRecessH+m6NutRecessZ]) rotate([0,0,30]) cylinder(d=m6NutRecessOD, h=longNutRecessH, $fn=6);
 
         // PVC m6 set-screw:
         translate([0,0,0]) rotate([90,0,0]) cylinder(d=5.5, h=30);
@@ -170,11 +175,11 @@ module angledTop()
     bodyScrewXform() tcy([0,0,m6NutRecessZ], d=8, h=upperLayersZ);
 }
 
-pvcAngle = 20;
+pvcAngle = 25;
 
 module angledPvcXform()
 {
-    pvcOffsetY = bodyCylOD/2 + pvcOD/2 + 1;
+    pvcOffsetY = bodyCylOD/2 + pvcOD/2 + 10;
     echo(str("pvcOffsetY-pvcOD/2-boomDia/2 = ", pvcOffsetY-pvcOD/2-boomDia/2));
     rotate([0,0,pvcAngle]) translate([0, -pvcOffsetY, 0]) rotate([0,90,0]) children();
 }
@@ -261,7 +266,7 @@ module roundedCornerBox(x, y, z, r)
 
 module clip(d=0)
 {
-	// tc([-200, -200, -d], 400);
+	tc([-200, -200, -d], 400);
 }
 
 if(developmentRender)
